@@ -1,0 +1,16 @@
+**/.venv/
+.tools/
+**/.azure/
+infra/main.tfvars.json
+**/.env
+**/.env.*
+!**/.env.example
+**/__pycache__/
+**/.pytest_cache/
+**/.terraform/
+**/*.tfstate
+**/*.tfstate.*
+**/*.tfplan
+**/terraform.tfvars
+**/evidence/private/
+evidence/**/private/

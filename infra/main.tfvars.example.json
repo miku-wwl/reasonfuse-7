@@ -1,0 +1,25 @@
+{
+  "operations_admin_key": "<operations-admin-key>",
+  "publisher_email": "<publisher-email>",
+  "deployments": [
+    {
+      "name": "<deployment-name>",
+      "model": {
+        "name": "<model-name>",
+        "format": "OpenAI",
+        "version": "<model-version>"
+      },
+      "sku": {
+        "name": "GlobalStandard",
+        "capacity": 1
+      }
+    }
+  ],
+  "environment_name": "<azd-environment>",
+  "foundry_project_name": "<foundry-project-name>",
+  "location": "australiaeast",
+  "principal_id": "<principal-object-id>",
+  "resource_group_name": "<resource-group-name>",
+  "resource_token_salt": "<resource-token-salt>",
+  "subscription_id": "<subscription-id>"
+}
