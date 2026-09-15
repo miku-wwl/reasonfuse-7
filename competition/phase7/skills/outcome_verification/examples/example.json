@@ -1,0 +1,7 @@
+{
+  "action": "restart_service",
+  "resource": "checkout",
+  "accepted_result": {"accepted": true, "generation": "g2"},
+  "observation": {"resource": "checkout", "generation": "g2", "service_health": "HEALTHY"},
+  "expected": {"decision": "OUTCOME_VERIFIED"}
+}

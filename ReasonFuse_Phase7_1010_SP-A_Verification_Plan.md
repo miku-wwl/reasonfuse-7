@@ -44,6 +44,36 @@ the package is installable / packagable
 the final story matches the evidence
 ```
 
+## Current checkout profile — 2026-09-15
+
+The current implementation under verification is the local package at
+`competition/phase7/`. It is a thin adapter over the unchanged
+`src/reasonfuse/core/` implementation and is executed from the repository
+checkout with:
+
+```powershell
+pwsh -File scripts/run_phase7.ps1 -Mode verify
+python -m competition.phase7.evaluation
+python -m competition.phase7.demo.run
+```
+
+The latest local evidence is:
+
+```text
+6 / 6 Skill packages present
+120 / 120 Skill self-tests PASS
+overall trigger hit rate 98.33%
+30 / 30 negative trigger examples correctly produced no route
+7 / 7 deterministic fault fixtures contained
+main E2E OUTCOME_VERIFIED
+root test suite 37 / 37 PASS
+```
+
+This is local checkout evidence. It does not prove a clean independent
+installation, organizer acceptance of the orchestration framework, a live
+cloud/production run, swarm emergence, or official competition submission.
+Those claims remain `NOT VERIFIED` or `BLOCKED` below.
+
 ---
 
 # 1. Source-Derived Acceptance Baseline
@@ -259,6 +289,18 @@ P7-V0 through P7-V17
 
 except clearly marked P0.5 sub-items.
 
+Important distinction for this checkout:
+
+```text
+LOCAL_P0_ACCEPTANCE = PASS
+FORMAL_P7-V0..V17_SUBMISSION_GATE = NOT VERIFIED
+```
+
+The local acceptance harness intentionally covers the executable package,
+self-tests, trigger set, fault matrix, and one deterministic E2E. It does not
+close the external-framework, clean-install, independent-viewer, official
+submission, or final-archive gates.
+
 ---
 
 # 5. P7-V0 — Phase 6 Handoff / Core Freeze
@@ -269,14 +311,18 @@ Prove Phase 7 starts from a stable ReasonFuse baseline and does not silently rew
 
 ## Required record
 
-Capture:
+Capture the source-core SHA separately from the Phase 7 implementation SHA.
+Do not label the current Phase 7 working tree as frozen until the implementation
+has been reviewed, committed, and the final acceptance run has been repeated.
+
+For the current checkout:
 
 ```text
-Phase 6 final commit SHA
-Phase 7 starting commit SHA
-Phase 7 branch
-git status
-core test baseline
+source/core baseline: e5ba1cb79e5dbad5afd91cf4af49271fd596df7a
+Phase 7 implementation: local uncommitted working tree
+branch: main
+core source diff: none
+pre-existing plan edit: preserved and not overwritten
 ```
 
 Recommended branch relationship:
@@ -296,13 +342,17 @@ Run the existing core verification suite before Phase 7 adapter work.
 Expected:
 
 ```text
-unit / boundary tests PASS
+core unit / boundary tests PASS
 local wiring PASS
 history audit PASS
 compileall PASS
-15 scenarios PASS
 git diff --check PASS
+benchmark/15-scenarios.md: manual checklist only; execution NOT VERIFIED
 ```
+
+Current evidence is `36 / 36` core tests PASS and `37 / 37` root tests PASS
+when the Phase 7 acceptance test is included. The local `15-scenarios.md`
+file is not an automated run and must not be reported as `15 scenarios PASS`.
 
 ## PASS
 
@@ -354,10 +404,26 @@ Verify:
 6 SKILL.md files exist
 6 callable wrappers/adapters exist
 6 input/output contracts exist
-supporting scripts exist
+supporting implementation and self-test modules exist
 examples exist
 test folders exist
 ```
+
+Current checkout mapping:
+
+```text
+competition/phase7/skills/<skill>/SKILL.md
+competition/phase7/skills/<skill>/skill.py
+competition/phase7/skills/<skill>/schema.json
+competition/phase7/skills/<skill>/examples/example.json
+competition/phase7/skills/<skill>/self_tests.py
+competition/phase7/evaluation/acceptance.py
+```
+
+The current package check is the `package` section of
+`python -m competition.phase7.evaluation`. It checks six directories, six
+schemas, six examples, and required files; it does not claim a separately
+published archive.
 
 ## PASS
 
@@ -442,6 +508,13 @@ same algorithm copied six times
 ## PASS
 
 The six Skills are distinct, documented, and backed by real implementation.
+
+Current implementation note: Trajectory Guard, Progress Accounting, Failure
+Detection, Execution Contract, and Outcome Verification delegate to the frozen
+core through `competition/phase7/adapter.py`. Approval Control is the thin
+competition-facing approval-state adapter because the local package has no
+native human-approval provider. That local approval model must not be presented
+as production or platform-native approval evidence.
 
 ---
 
@@ -592,6 +665,17 @@ Phase 7 P0 = FAIL
 
 Do not hide or exclude failing tests to reach 100%.
 
+Current execution path:
+
+```powershell
+python -m competition.phase7.evaluation
+```
+
+The acceptance harness executes `run_self_tests()` for each Skill and currently
+records `120 / 120 PASS` (`20 / 20` for each Skill). The six small
+`tests/test_skill.py` files assert those named cases; the acceptance harness is
+the authoritative aggregate count.
+
 ---
 
 # 9. P7-V4 — Trigger-System Verification
@@ -683,6 +767,21 @@ Document the evaluation policy before measuring.
 
 Do not change the scoring rule after seeing results.
 
+Current frozen local dataset and result:
+
+```text
+positive examples: 20 per Skill / 120 total
+negative examples: 30
+cross-Skill examples: 20
+overall hit rate: 98.33%
+negative no-trigger correctness: 30 / 30
+approval_control recall: 18 / 20 (90%)
+```
+
+The current router uses deterministic normalized phrase matching and reports
+the two approval-control misses in its confusion summary. This is a local
+engineering evaluation, not an organizer-provided benchmark.
+
 ---
 
 # 10. P7-V5 — Shared Message Schema Verification
@@ -746,6 +845,14 @@ status
 ## PASS
 
 Messages are interoperable across agents and traceable through one collaboration.
+
+Current local status: the runtime trace emitted by
+`competition/phase7/orchestration/message_schema.py` carries
+`collaboration_id`, `task_id`, `subtask_id`, and `agent_role`; the handoff event
+also carries `handoff_from` and `handoff_to`. This proves trace identity at E2
+level. Formal producer/consumer validation and rejection of malformed
+`CollaborationMessage` instances are not yet executed, so the full shared
+message-schema gate remains `NOT VERIFIED`.
 
 ---
 
@@ -820,6 +927,12 @@ planner clarifies / safely bounds scope
 or produces a conservative plan.
 
 It must not immediately jump to a high-impact action.
+
+Current local status: `decompose_intent()` creates four ordered work items with
+dependencies (`diagnose → stress-test → remediate → verify`) and assigns the
+four role responsibilities. Dynamic re-plan, persistence after an evidence
+update, and the ambiguous-goal negative test are not implemented in the local
+coordinator and remain `NOT VERIFIED`.
 
 ---
 
@@ -987,6 +1100,23 @@ At least one collaboration-specific fault must appear in the final demo.
 
 All three recommended faults should pass in the full verification suite.
 
+Current local fault matrix extends this to seven resettable fixtures:
+
+```text
+loop                  EXACT_LOOP                 contained
+ping_pong             OSCILLATING                contained
+retrieval_churn       RETRIEVAL_CHURN            contained
+premature_remediation PREMATURE_SIDE_EFFECT     approval-gated
+postcondition_failure POSTCONDITION_FAILED      contained
+stale_verification    STALE_VERIFICATION         contained
+conflicting_decisions CONFLICTING_AGENT_DECISIONS contained
+```
+
+The matrix is executed by `python -m competition.phase7.evaluation`. The
+retrieval fixture proves deterministic churn containment, but it does not yet
+prove multiple independent retrieval agents or emergent swarm behavior; that
+stronger claim remains `NOT VERIFIED`.
+
 ---
 
 # 14. P7-V9 — ReasonFuse Intervention Verification
@@ -1036,6 +1166,14 @@ intervention evidence = insufficient
 ```
 
 This does not mean every demo must be an OFF/ON benchmark, but the causal effect must be clear.
+
+Current local evidence: the ping-pong fixture reaches a core
+`OSCILLATING` block before the fourth handoff, and the duplicate-work fixture
+reaches an `EXACT_LOOP` block before the third duplicate action. The same run
+also demonstrates the verification reserve and approval gate. A controlled
+ReasonFuse-OFF comparison has not been run, so a formal causal OFF/ON
+comparison remains `NOT VERIFIED`; the allowed wording is “deterministic local
+intervention observed.”
 
 ---
 
@@ -1097,6 +1235,14 @@ must be demonstrated in the verification suite.
 The Verification Agent must not simply trust the Operations Agent's own statement.
 
 Fresh evidence must determine the outcome.
+
+Current local evidence covers both branches. The main run records
+`APPROVAL_REQUIRED`, then consumes an explicitly supplied `APPROVED` state,
+accepts a `202` restart, performs a fresh `g2` checkout read, and publishes
+`OUTCOME_VERIFIED`. Skill self-tests cover `POSTCONDITION_FAILED` and
+`OUTCOME_UNKNOWN`; `--approval DENIED` demonstrates a non-success branch. The
+approval value is a local enum supplied to the demo, not evidence of a native
+human-approval provider.
 
 ---
 
@@ -1166,6 +1312,12 @@ hidden system prompts
 sensitive user content
 ```
 
+Current local evidence: `python -m competition.phase7.demo.run` renders a
+17-event terminal trace. It uses a deterministic `sequence` column instead of
+wall-clock time and includes agent, subtask, Skill, decision, progress, and
+outcome fields where applicable. The trace carries the collaboration/task
+identifiers and the local Phase 7 scan reports `PHASE7_SECRET_SCAN_NONE`.
+
 ---
 
 # 17. P7-V12 — Main E2E Closed-Loop Verification
@@ -1223,6 +1375,22 @@ all six appear in the primary main run
 If one Skill is not naturally exercised in the main happy path, the competition demo may include a short branch.
 
 Do not claim “six integrated Skills” if half of them never execute.
+
+Current local E2E evidence from `python -m competition.phase7.evaluation`:
+
+```text
+trajectory_guard       3 invocations
+progress_accounting    2 invocations
+failure_detection      1 invocation
+execution_contract     1 invocation
+approval_control       2 invocations
+outcome_verification   1 invocation
+```
+
+The local coordinator is deterministic role-agent orchestration, not an
+external framework run with independently scheduled LLM agents. The stronger
+“official multi-agent framework accepted and genuinely live” claim remains
+`BLOCKED` / `NOT VERIFIED`.
 
 ---
 
@@ -1311,6 +1479,19 @@ main demo
 
 using the documented setup path.
 
+Current local status: the documented checkout path is:
+
+```powershell
+uv sync --frozen --python 3.13
+python -m competition.phase7.evaluation
+python -m competition.phase7.demo.run
+```
+
+That path passed in the current workspace and requires no Azure account or
+secret. It is not yet a clean-clone/package-archive test, and no independently
+published wheel, container, or archive has been validated. Therefore
+`P7-V13 clean install` is `NOT VERIFIED`; `documented local setup` is `PASS`.
+
 ---
 
 # 19. P7-V14 — Unified Acceptance Harness Verification
@@ -1320,7 +1501,7 @@ Create one top-level verification command or small command set.
 Conceptually:
 
 ```text
-phase7 verify
+pwsh -File scripts/run_phase7.ps1 -Mode verify
 ```
 
 It should report:
@@ -1333,8 +1514,14 @@ self-test pass rate
 trigger hit rate
 schema validation
 main E2E result
-package/install smoke
+package resource/schema parse smoke
 ```
+
+Current implementation command: `python -m competition.phase7.evaluation`
+(also exposed by `scripts/run_phase7.ps1`). It reports package presence, the
+per-Skill self-test count and pass rate, trigger metrics, fault matrix, and
+main E2E status. Its schema check parses six JSON schemas; it is not a full
+JSON-Schema validator or a clean-install test.
 
 ---
 
@@ -1344,19 +1531,23 @@ package/install smoke
 PHASE7_ACCEPTANCE
 
 Skills:               6 / 6
-Self-tests:           132 / 132 PASS
+Self-tests:           120 / 120 PASS
 Self-test pass rate:  100%
-Trigger hit rate:     96.4%
-Message schema:       PASS
-Multi-agent E2E:      PASS
+Trigger hit rate:     98.33%
+Message trace IDs:    PASS (formal schema NOT VERIFIED)
+Multi-agent E2E:      PASS (local deterministic)
 Fault injection:      PASS
 Outcome verification: PASS
-Package install:      PASS
+Package setup:        PASS (checkout)
+Clean install:        NOT VERIFIED
 
-RESULT: PASS
+RESULT: LOCAL_P0_ACCEPTANCE
 ```
 
-The numbers above are illustrative only.
+The current local summary is `6 / 6` Skills, `120 / 120` self-tests PASS,
+`98.33%` overall trigger hit rate, `7 / 7` fault fixtures contained, and
+`OUTCOME_VERIFIED` for the main E2E. Package-install and framework-eligibility
+fields must not be changed to PASS without the missing evidence.
 
 ---
 
@@ -1405,24 +1596,43 @@ What was actually tested?
 
 If they cannot answer these, the demo story is not ready.
 
+Current local demo check:
+
+```powershell
+python -m competition.phase7.demo.run
+python -m competition.phase7.demo.run --fault loop
+python -m competition.phase7.demo.run --approval DENIED
+```
+
+The approved default and loop variants complete with
+`OUTCOME_VERIFIED`; the denied variant exits non-zero by design because the
+side effect is not authorized. The terminal output visibly shows the intent,
+plan, roles, fault, Skill decisions, approval, verification, and monitoring.
+An independent viewer comprehension test and a final recorded competition
+video have not been performed: `NOT VERIFIED`.
+
 ---
 
 # 21. P7-V16 — Final Claim Audit
 
 Build a claim-to-evidence matrix.
 
-Example:
+Current local audit snapshot:
 
 | Claim | Required Evidence | Status | Allowed Wording |
 |---|---|---|---|
-| 6 effective Skills | package + E2E use | PASS | “6 integrated Skills” |
-| ≥20 tests per Skill | counted tests | PASS | “≥20 self-tests per Skill” |
-| 100% pass rate | acceptance harness | PASS | “100% self-test pass rate” |
-| trigger hit rate ≥90% | frozen evaluation dataset | PASS | measured percentage |
-| multi-agent orchestration | E2E trace | PASS | “multi-agent collaboration” |
-| fault injection | deterministic scenario | PASS | “fault-injected collaboration” |
+| 6 effective Skills | package + E2E use | PASS (local) | “6 integrated Skills in the local package” |
+| ≥20 tests per Skill | counted tests | PASS (local) | “20 named self-tests per Skill” |
+| 100% pass rate | acceptance harness | PASS (local) | “120/120 local self-tests pass” |
+| trigger hit rate ≥90% | frozen evaluation dataset | PASS (local) | “98.33% on the local dataset” |
+| role collaboration | E2E trace | PASS (local) | “deterministic role-agent orchestration” |
+| external multi-agent framework | live framework run + eligibility | NOT VERIFIED / BLOCKED | do not claim official framework acceptance |
+| fault injection | deterministic scenario | PASS (local) | “fault-injected local collaboration trace” |
+| shared message schema | producer/consumer validation | NOT VERIFIED | do not claim full schema interoperability |
+| clean install / published package | clean clone or archive run | NOT VERIFIED | “documented local checkout setup” only |
 | swarm emergence | dedicated evidence | NOT VERIFIED | do not claim full swarm emergence |
 | framework compatibility | organizer confirmation | BLOCKED | do not claim official approval yet |
+| official submission/video | final package and viewer review | NOT VERIFIED | do not claim submitted or judge-reviewed |
 
 ---
 
@@ -1468,6 +1678,27 @@ no architecture redesign
 ```
 
 Run the final acceptance suite once.
+
+Current freeze status is not yet ready for submission. The executable local
+P0 gates pass, but the checklist below must keep the unresolved items visible
+until the Phase 7 implementation is reviewed and committed, a clean install
+is tested, framework eligibility is resolved, and the final submission
+artifacts are independently checked.
+
+Current status summary:
+
+```text
+[PASS]           core regression and no core diff
+[PASS]           6 Skill package presence and local contracts
+[PASS]           120 / 120 self-tests
+[PASS]           local trigger evaluation and fault matrix
+[PASS]           deterministic local main E2E
+[NOT VERIFIED]   formal message producer/consumer compatibility
+[NOT VERIFIED]   dynamic replanning and ambiguous-intent handling
+[NOT VERIFIED]   clean-clone or published-archive installation
+[BLOCKED]        official orchestration-framework eligibility
+[NOT VERIFIED]   final archive, video, and official submission review
+```
 
 ---
 
@@ -1634,6 +1865,12 @@ evidence/
 ```
 
 Public evidence must be sanitized.
+
+Current checkout evidence is command output and source inspection; no immutable
+`evidence/phase7/` run bundle, archive hash, video, or official submission
+record has been created yet. A future final run should save the acceptance JSON,
+terminal trace, fault matrix, commit SHA, and clean-install output into the
+layout above before changing the corresponding status to `PASS`.
 
 ---
 
@@ -1870,6 +2107,13 @@ packaging reliability
 Phase 7 is **VERIFIED COMPLETE** only when we can truthfully state:
 
 > The ReasonFuse competition distribution contains at least six effective Skills, each documented and backed by at least twenty self-tests. The required self-tests pass, the trigger system reaches the required hit rate, the Skills operate inside one unified SP-A multi-agent scenario, and the main pipeline demonstrates task decomposition, planning, genuine role collaboration, injected collaboration failure, deterministic ReasonFuse intervention, high-impact action control, fresh outcome verification, runtime monitoring, and a reproducible installable package.
+
+Current status: the first executable/local portion of this statement is
+supported by the acceptance run, but the phrase “genuine role collaboration”
+is currently limited to the deterministic local role-agent coordinator, and
+“reproducible installable package” has only been demonstrated as a checkout
+setup. Until the unresolved gates above are closed, the correct label is
+`LOCAL_P0_ACCEPTANCE = PASS`, not `VERIFIED COMPLETE`.
 
 ---
 

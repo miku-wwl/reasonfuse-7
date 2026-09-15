@@ -1,0 +1,6 @@
+{
+  "contract": {"max_steps": 4, "max_tool_calls": 4, "max_side_effects": 1},
+  "state": {"step_index": 1, "tool_call_count": 1, "side_effect_count": 0},
+  "side_effect": false,
+  "expected": {"decision": "ALLOW", "remaining_steps": 3}
+}

@@ -1,0 +1,5 @@
+{
+  "tool_name": "restart_service",
+  "arguments": {"body": {"service_name": "checkout"}},
+  "expected": {"decision": "ALLOW", "trajectory_state": "ACTIVE"}
+}

@@ -1,0 +1,6 @@
+{
+  "action": "restart_service",
+  "risk_class": "HIGH",
+  "approval_state": "PENDING",
+  "expected": {"decision": "APPROVAL_REQUIRED"}
+}

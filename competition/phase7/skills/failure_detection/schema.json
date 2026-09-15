@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Failure Detection input/output",
+  "type": "object",
+  "properties": {
+    "fingerprints": {"type": "array", "items": {"type": "string"}},
+    "progress": {"type": "array", "items": {"type": "boolean"}},
+    "retrieval_attempts": {"type": ["array", "null"]},
+    "decision": {"enum": ["DETECTED", "CLEAR", "BLOCK"]},
+    "failure_type": {"type": ["string", "null"]}
+  }
+}

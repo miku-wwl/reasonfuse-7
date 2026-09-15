@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Execution Contract input/output",
+  "type": "object",
+  "properties": {
+    "contract": {"type": "object"},
+    "state": {"type": "object"},
+    "side_effect": {"type": "boolean"},
+    "verification": {"type": "boolean"},
+    "decision": {"enum": ["ALLOW", "BLOCK"]},
+    "remaining_steps": {"type": "integer", "minimum": 0},
+    "remaining_tool_calls": {"type": "integer", "minimum": 0}
+  }
+}

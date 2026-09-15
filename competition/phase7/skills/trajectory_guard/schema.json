@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Trajectory Guard input/output",
+  "type": "object",
+  "required": ["tool_name", "arguments"],
+  "properties": {
+    "tool_name": {"type": "string", "minLength": 1},
+    "arguments": {"type": "object"},
+    "decision": {"enum": ["ALLOW", "BLOCK"]},
+    "reason": {"type": ["string", "null"]},
+    "fingerprint": {"type": ["string", "null"]}
+  }
+}

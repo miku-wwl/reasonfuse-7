@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Progress Accounting input/output",
+  "type": "object",
+  "required": ["before", "after"],
+  "properties": {
+    "before": {"type": "object"},
+    "after": {"type": "object"},
+    "before_todo": {"type": ["object", "null"]},
+    "after_todo": {"type": ["object", "null"]},
+    "decision": {"enum": ["ADVANCING", "STALLED", "BLOCK"]},
+    "objective_progress": {"type": "boolean"}
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Outcome Verification input/output",
+  "type": "object",
+  "required": ["action", "resource", "accepted_result", "observation"],
+  "properties": {
+    "action": {"type": "string", "minLength": 1},
+    "resource": {"type": "string", "minLength": 1},
+    "accepted_result": {"type": "object"},
+    "observation": {"type": ["object", "null"]},
+    "decision": {"enum": ["OUTCOME_VERIFIED", "POSTCONDITION_FAILED", "OUTCOME_UNKNOWN", "BLOCK"]},
+    "reason": {"type": ["string", "null"]}
+  }
+}

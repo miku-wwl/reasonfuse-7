@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Approval Control input/output",
+  "type": "object",
+  "required": ["action", "risk_class"],
+  "properties": {
+    "action": {"type": "string", "minLength": 1},
+    "risk_class": {"enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"]},
+    "approval_state": {"type": ["string", "null"]},
+    "decision": {"enum": ["NOT_REQUIRED", "APPROVAL_REQUIRED", "APPROVED", "DENIED", "BLOCK"]}
+  }
+}

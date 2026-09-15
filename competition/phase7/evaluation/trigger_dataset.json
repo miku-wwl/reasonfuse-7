@@ -1,0 +1,58 @@
+{
+  "positives": {
+    "trajectory_guard": [
+      "run the trajectory guard", "guard this proposed action", "validate trajectory before dispatch", "check whether this action may execute",
+      "block proposal if unsafe", "inspect the execution trajectory", "use the action gate", "perform a safe dispatch check",
+      "review this tool proposal", "run the trajectory check", "can this tool run", "check permission to run", "calculate the action fingerprint",
+      "apply the fuse gate", "prevent repeat action", "run the dispatch guard", "preflight action before execution", "is it allowed to execute",
+      "trajectory guard on restart", "guard action before tool call"
+    ],
+    "progress_accounting": [
+      "measure objective progress", "calculate the progress delta", "compare the world state delta", "report the evidence delta",
+      "did this step advanced the objective", "check meaningful progress", "run progress accounting", "measure progress after the read",
+      "todo not progress", "compare before after states", "calculate progress advancement", "inspect stalled progress", "report the postcondition delta",
+      "emit the progress signal", "did the state change", "did the work advanced", "run a progress check", "show progress status",
+      "perform delta analysis", "run progress measurement"
+    ],
+    "failure_detection": [
+      "detect loop", "detect oscillation", "check retrieval churn", "find collaboration failure", "detect runaway collaboration",
+      "detect the repeat pattern", "run the failure detector", "detect ping pong handoffs", "inspect the stalled trajectory",
+      "detect duplicate work", "classify this fault pattern", "contain failure", "return the failure type", "detect oscillation failure",
+      "find the exact loop", "inspect swarm failure", "detect no progress failure", "diagnose loop", "find collaboration deadlock", "run failure analysis"
+    ],
+    "execution_contract": [
+      "check the execution budget", "validate the run contract", "show remaining tool budget", "check max steps", "enforce the step limit",
+      "check tool call allowance", "check side effect budget", "reserve the verification reserve", "enforce bounded execution",
+      "inspect the contract limit", "show execution allowance", "report budget status", "can we dispatch within budget", "handle budget exhausted",
+      "run contract validation", "show steps remaining", "show tool calls remaining", "check resource action budget", "inspect run limits", "check bounded run"
+    ],
+    "approval_control": [
+      "request approval", "gate the risky operation", "review this high impact action", "get human confirmation", "approve restart",
+      "inspect approval state", "gate the side effect", "request permission for remediation", "approve remediation", "handle denied action",
+      "is approval required", "request operator confirmation", "get a safety confirmation", "check side effect approval", "get authorization to act",
+      "confirm production change", "review the risky tool", "run approval control", "use human-in-the-loop", "confirm action"
+    ],
+    "outcome_verification": [
+      "verify outcome", "check the postcondition", "confirm recovery", "perform fresh verification", "prove the real world result",
+      "check health after restart", "report outcome status", "run a verification read", "is the service healthy", "did remediation work",
+      "check recovery", "run the outcome verifier", "perform a generation check", "inspect stale verification", "prove success",
+      "show result verified", "handle postcondition failed", "perform a fresh read", "is checkout healthy", "provide completion proof"
+    ]
+  },
+  "negatives": [
+    "write a project summary", "translate this paragraph", "format the incident title", "list the team members", "show the current date",
+    "explain what an API is", "draft a customer email", "summarize the meeting", "rename the scenario", "calculate twelve plus five",
+    "describe the business context", "create a neutral heading", "sort these labels alphabetically", "what is a database", "show a color palette",
+    "write a welcome message", "explain the competition tracks", "convert this text to JSON", "list available roles", "describe a checkout service",
+    "make a short introduction", "proofread the README", "show the package version", "write release notes", "explain deterministic logic",
+    "create a table of contents", "find a spelling error", "describe a software agent", "draft a demo title", "summarize this file"
+  ],
+  "cross_skill": [
+    "guard and verify the restart outcome", "check budget before approval", "detect failure then verify recovery", "measure progress before dispatch",
+    "approve the action and check the postcondition", "detect an oscillation within the budget", "verify a guarded tool proposal", "account for progress after approval",
+    "contain the loop before outcome verification", "check the contract and request approval", "route a risky action through the trajectory guard",
+    "measure objective progress after a fresh read", "detect duplicate work and guard the next action", "verify recovery after a bounded restart",
+    "approval control for a side effect with a postcondition", "failure detection for a stalled contract", "progress accounting for a verified outcome",
+    "guard an action after detecting a fault", "budget the verification read", "check approval before execution"
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "before": {"world_state": {"service_health": "UNHEALTHY"}},
+  "after": {"world_state": {"service_health": "HEALTHY"}},
+  "expected": {"decision": "ADVANCING", "objective_progress": true}
+}

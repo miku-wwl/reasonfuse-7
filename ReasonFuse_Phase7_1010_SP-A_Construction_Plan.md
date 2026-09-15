@@ -1485,7 +1485,8 @@ etc.
 
 and describes the use of open-source multi-agent orchestration frameworks.
 
-The source does not explicitly state whether Microsoft Agent Framework is accepted as an equivalent in this competition.
+The source does not explicitly state whether Microsoft Agent Framework is
+accepted as an equivalent in this independent competition.
 
 Therefore Phase 7 must treat this as an **open organizer-compatibility question**.
 
@@ -1493,11 +1494,12 @@ Preferred order:
 
 ```text
 1. confirm official acceptance of the chosen orchestration framework
-2. if accepted, reuse the Phase 6 Microsoft/Agent Framework stack
+2. if accepted, use it in the separate Phase 7 implementation repository
 3. if not accepted, add a thin competition orchestration adapter using an accepted open-source framework
 ```
 
-Do not rewrite ReasonFuse core either way.
+Do not assume the framework used in the other competition is accepted merely
+because it was used there. Do not rewrite ReasonFuse core either way.
 
 ---
 
@@ -1725,7 +1727,8 @@ competition/
         └── ...
 ```
 
-This is a construction recommendation, not an official competition filesystem requirement.
+This is a construction recommendation for the separate Phase 7 implementation
+repository, not an official competition filesystem requirement.
 
 ---
 
@@ -1736,7 +1739,7 @@ Do not start by writing six `SKILL.md` files.
 Correct order:
 
 ```text
-Phase 6 freeze
+Pin ReasonFuse core snapshot
     ↓
 Confirm SP-A / framework compatibility
     ↓
@@ -1820,11 +1823,11 @@ installable package
 ```text
 advanced graph visualization
 additional agent roles
-APIM canary reuse
-Foundry IQ live integration
 multiple incident scenarios
 swarm visualization
 extra adversarial simulations
+performance profiling
+optional cloud integration only if the official 1010 brief explicitly values it
 ```
 
 P0.5 must never destabilize P0.
@@ -1868,7 +1871,8 @@ Phase 7 is complete only when:
 
 16. The competition story explains real-world business value.
 
-17. Phase 7 changes do not invalidate the Phase 6 Microsoft submission.
+17. Phase 7 is independently packaged and does not claim to modify, extend, or
+    certify the Phase 6 Microsoft submission.
 ```
 
 ---
@@ -1905,7 +1909,7 @@ That preserves the core ReasonFuse idea while satisfying the Track B / SP-A comp
 
 When Phase 7 begins:
 
-> **Do not reopen architecture design discussions that Phase 1–6 already settled.**
+> **Do not reopen the frozen ReasonFuse core design; treat earlier phases as a technical baseline, not as this competition's scope or evidence.**
 
 The only valid Phase 7 questions are:
 

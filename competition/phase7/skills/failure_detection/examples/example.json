@@ -1,0 +1,5 @@
+{
+  "fingerprints": ["handoff:commander->diagnosis", "handoff:diagnosis->commander", "handoff:commander->diagnosis", "handoff:diagnosis->commander"],
+  "progress": [false, false, false, false],
+  "expected": {"decision": "DETECTED", "failure_type": "OSCILLATING"}
+}
